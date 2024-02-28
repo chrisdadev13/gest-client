@@ -1,0 +1,91 @@
+<main>
+  <div class="absolute top-0 -z-10 h-full w-full bg-white"></div>
+  <div class="flex h-screen w-screen flex-col items-center justify-center">
+    <div
+      class="mx-auto flex h-full w-screen flex-col items-center justify-center space-y-6 sm:w-[350px]"
+    >
+      <div
+        class="shadow-xs bg-white/5 w-10/12 sm:w-full p-7 backdrop-blur-lg dark:bg-transparent"
+      >
+        <h1 class="text-xl">Welcome Back!</h1>
+        <div class="flex flex-col space-y-2 w-full">
+          <form [formGroup]="formBody" (ngSubmit)="onSubmit()">
+            <div class="form-group">
+              <label hlmLabel> Name</label>
+              <input
+                hlmInput
+                type="text"
+                formControlName="name"
+                [ngClass]="{ 'is-invalid': submitted && f['name'].errors }"
+              />
+              @if (submitted && f["name"].errors) {
+                <div class="text-red-500">
+                  @if (f["name"].errors["required"]) {
+                    <div>Name is required</div>
+                  }
+                </div>
+              }
+            </div>
+            <div class="form-group">
+              <label hlmLabel>Email</label>
+              <input
+                hlmInput
+                type="text"
+                formControlName="email"
+                [ngClass]="{ 'is-invalid': submitted && f['email'].errors }"
+              />
+              @if (submitted && f["email"].errors) {
+                <div class="text-red-500">
+                  @if (f["email"].errors["required"]) {
+                    <div>Email is required</div>
+                  }
+                  @if (f["email"].errors["email"]) {
+                    <div>Email is invalid</div>
+                  }
+                </div>
+              }
+            </div>
+            <div class="form-group">
+              <label hlmLabel>Password</label>
+
+              <input
+                hlmInput
+                type="password"
+                formControlName="password"
+                [ngClass]="{ 'is-invalid': submitted && f['password'].errors }"
+              />
+              @if (submitted && f["password"].errors) {
+                <div class="text-red-500">
+                  @if (f["password"].errors["required"]) {
+                    <div>Password is required</div>
+                  }
+                  @if (f["password"].errors["minlength"]) {
+                    <div>Password must be at least 6 characters</div>
+                  }
+                  @if (f["password"].errors["maxlength"]) {
+                    <div>Username must not exceed 40 characters</div>
+                  }
+                </div>
+              }
+            </div>
+            <div class="mt-5">
+              <button hlmBtn type="submit">Register</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div
+      class="absolute inset-0 -z-40 m-auto h-[357px] max-w-xs blur-[118px] sm:max-w-md md:max-w-lg"
+      style="
+        background: linear-gradient(
+          106.89deg,
+          rgba(192, 132, 252, 0.11) 15.73%,
+          rgba(14, 165, 233, 0.41) 15.74%,
+          rgba(232, 121, 249, 0.26) 56.49%,
+          rgba(79, 70, 229, 0.4) 115.91%
+        );
+      "
+    ></div>
+  </div>
+</main>
