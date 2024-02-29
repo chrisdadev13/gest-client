@@ -11,22 +11,6 @@
         <div class="flex flex-col space-y-2 w-full">
           <form [formGroup]="formBody" (ngSubmit)="onSubmit()">
             <div class="form-group">
-              <label hlmLabel> Name</label>
-              <input
-                hlmInput
-                type="text"
-                formControlName="name"
-                [ngClass]="{ 'is-invalid': submitted && f['name'].errors }"
-              />
-              @if (submitted && f["name"].errors) {
-                <div class="text-red-500">
-                  @if (f["name"].errors["required"]) {
-                    <div>Name is required</div>
-                  }
-                </div>
-              }
-            </div>
-            <div class="form-group">
               <label hlmLabel>Email</label>
               <input
                 hlmInput
@@ -69,7 +53,23 @@
               }
             </div>
             <div class="mt-5">
-              <button hlmBtn type="submit">Register</button>
+              @if (!this.showLoading && this.errorMessage.length) {
+                <p>
+                  {{ this.errorMessage }}
+                </p>
+              }
+              <button [disabled]="this.showLoading" hlmBtn type="submit">
+                @if (this.showLoading) {
+                  <hlm-spinner
+                    name="lucideLoader2"
+                    size="sm"
+                    class="mr-2 animate-spin"
+                  />
+                  Please Wait!
+                } @else {
+                  Login
+                }
+              </button>
             </div>
           </form>
         </div>
