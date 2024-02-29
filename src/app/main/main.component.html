@@ -1,0 +1,13 @@
+<main class="bg-[#f3f4f6] w-full h-screen">
+  <div
+    [ngClass]="{
+      'w-2/5 transition duration-300 delay-150': this.currentRoute !== '/main'
+    }"
+    class="bg-white h-3/5 w-2/4 absolute text-center transform -translate-x-1/2 -translate-y-1/2 border top-1/2 left-1/2"
+  >
+    <div class="flex h-full w-full">
+      <app-sidebar />
+      <router-outlet />
+    </div>
+  </div>
+</main>

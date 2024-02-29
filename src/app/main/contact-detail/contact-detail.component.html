@@ -1,0 +1,85 @@
+<main class="p-5 w-full">
+  <form [formGroup]="formBody" (ngSubmit)="onSubmit()" class="text-left w-full">
+    <div>
+      <label hlmLabel>Name*</label>
+      <input
+        formControlName="name"
+        [ngClass]="{ 'is-invalid': submitted && f['name'].errors }"
+        hlmInput
+        size="xl"
+      />
+    </div>
+    <div>
+      <label hlmLabel>Email</label>
+      <input
+        formControlName="email"
+        [ngClass]="{ 'is-invalid': submitted && f['email'].errors }"
+        hlmInput
+        size="xl"
+      />
+
+      @if (submitted && f["email"].errors) {
+        <div class="text-red-500">
+          @if (f["email"].errors["required"]) {
+            <div>Email is required</div>
+          }
+          @if (f["email"].errors["email"]) {
+            <div>Email is invalid</div>
+          }
+        </div>
+      }
+    </div>
+    <div class="flex flex-col mt-2">
+      <label hlmLabel>Description</label>
+      <textarea
+        formControlName="description"
+        [ngClass]="{ 'is-invalid': submitted && f['description'].errors }"
+        class="mt-2 resize-none border border-input rounded-md"
+      ></textarea>
+    </div>
+    <div class="flex flex-col mt-2">
+      <label hlmLabel>Phone Number</label>
+      <input
+        formControlName="phone"
+        [ngClass]="{ 'is-invalid': submitted && f['phone'].errors }"
+        hlmInput
+        size="xl"
+      />
+    </div>
+    <div class="flex flex-col mt-2">
+      <label hlmLabel>Birthday</label>
+      <input
+        formControlName="birthday"
+        [ngClass]="{ 'is-invalid': submitted && f['birthday'].errors }"
+        size="xl"
+        type="datetime-local"
+        class="border border-input rounded-md mt-2 p-2"
+      />
+    </div>
+    <div class="flex flex-col mt-2">
+      <label hlmLabel>Address</label>
+      <input
+        formControlName="address"
+        [ngClass]="{ 'is-invalid': submitted && f['address'].errors }"
+        hlmInput
+        size="xl"
+      />
+    </div>
+    <div class="flex justify-end w-full mt-5">
+      <button hlmBtn variant="secondary"><a href="/main">Go Back</a></button>
+      <span class="mx-2"></span>
+      <button hlmBtn>
+        @if (this.showLoading) {
+          <hlm-spinner
+            name="lucideLoader2"
+            size="sm"
+            class="mr-2 animate-spin"
+          />
+          Please Wait!
+        } @else {
+          Create
+        }
+      </button>
+    </div>
+  </form>
+</main>

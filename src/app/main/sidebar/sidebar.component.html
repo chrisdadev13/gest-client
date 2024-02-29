@@ -1,0 +1,23 @@
+<main class="h-full flex flex-col text-left p-4 border-r-2 border-r-[#9297a2]">
+  <div class="flex flex-col pr-28 pt-2">
+    <hlm-avatar>
+      <img
+        src="{{
+          'https://api.dicebear.com/7.x/open-peeps/svg?seed=' + this.userEmail
+        }}"
+        hlmAvatarImage
+      />
+      <span class="bg-destructive text-white" hlmAvatarFallback>RG</span>
+    </hlm-avatar>
+    <p class="text-sm text-[#9297a2] my-5 font-semibold">
+      {{ this.user }}
+    </p>
+  </div>
+  <div class="mb-5">
+    <p class="text-xl text-[#384252]">Welcome to your</p>
+    <p class="text-xl text-[#384252]">Personal CRM 🥳</p>
+  </div>
+  <button hlmBtn>
+    <a href="/main/details"> Add a new contact</a>
+  </button>
+</main>

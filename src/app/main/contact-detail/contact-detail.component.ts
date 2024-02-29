@@ -6,7 +6,6 @@ import {
   FormBuilder,
   AbstractControl,
 } from '@angular/forms';
-import { AuthResponse, AuthService } from '../../core/services/auth.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HlmInputDirective } from '../../shared/components/ui/ui-input-helm/src/lib/hlm-input.directive';
@@ -16,12 +15,15 @@ import { HlmSpinnerComponent } from '../../shared/components/ui/ui-spinner-helm/
 import { HlmAvatarComponent } from '../../shared/components/ui/ui-avatar-helm/src/lib/hlm-avatar.component';
 import { HlmAvatarImageDirective } from '../../shared/components/ui/ui-avatar-helm/src/lib/image';
 import { HlmAvatarFallbackDirective } from '../../shared/components/ui/ui-avatar-helm/src/lib/fallback';
-import { StorageService } from '../../core/services/storage.service';
 import { Router } from '@angular/router';
+import {
+  ContactService,
+  CreateResponse,
+} from '../../core/services/contact.service';
 import { CookieService } from 'ngx-cookie-service';
 
 @Component({
-  selector: 'app-login',
+  selector: 'app-contact-detail',
   standalone: true,
   imports: [
     ReactiveFormsModule,
@@ -34,17 +36,19 @@ import { CookieService } from 'ngx-cookie-service';
     HlmAvatarImageDirective,
     HlmAvatarFallbackDirective,
   ],
-  templateUrl: './login.component.html',
-  styleUrl: './login.component.css',
+  templateUrl: './contact-detail.component.html',
+  styleUrl: './contact-detail.component.css',
 })
-export class LoginComponent {
-  authService = inject(AuthService);
-  storageService = inject(StorageService);
+export class ContactDetailComponent {
+  contactService = inject(ContactService);
   errorMessage = '';
   showLoading: boolean = false;
   formBody: FormGroup = new FormGroup({
+    name: new FormControl(''),
     email: new FormControl(''),
-    password: new FormControl(''),
+    description: new FormControl(''),
+    phone: new FormControl(''),
+    address: new FormControl(''),
   });
 
   submitted = false;
@@ -57,16 +61,11 @@ export class LoginComponent {
 
   ngOnInit(): void {
     this.formBody = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email]],
-
-      password: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(6),
-          Validators.maxLength(40),
-        ],
-      ],
+      name: ['', [Validators.required]],
+      email: ['', [Validators.email]],
+      description: ['', [Validators.max(150)]],
+      phone: ['', []],
+      address: ['', []],
     });
   }
 
@@ -83,15 +82,13 @@ export class LoginComponent {
 
     this.showLoading = true;
 
-    this.authService.login(this.formBody.value).subscribe({
-      next: (data: AuthResponse | { [key: string]: any }) => {
-        const { id, email, name, refreshToken, accessToken } = data;
-        this.storageService.saveUser({ id, email, name });
+    const access = this.cookieService.get('Authentication');
+    const refresh = this.cookieService.get('Refresh');
+
+    this.contactService.create(this.formBody.value, access, refresh).subscribe({
+      next: (_data: CreateResponse | { [key: string]: any }) => {
         this.showLoading = false;
         this.router.navigate(['/main']);
-
-        this.cookieService.set('Authentication', accessToken);
-        this.cookieService.set('Refresh', refreshToken);
       },
       error: (errorData) => {
         this.errorMessage = errorData.error.message;
