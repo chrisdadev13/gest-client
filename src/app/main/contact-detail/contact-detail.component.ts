@@ -47,7 +47,6 @@ export class ContactDetailComponent {
     name: new FormControl(''),
     email: new FormControl(''),
     description: new FormControl(''),
-    birthday: new FormControl(''),
     phone: new FormControl(''),
     address: new FormControl(''),
   });
@@ -76,7 +75,6 @@ export class ContactDetailComponent {
             name: [data.contact.name, [Validators.required]],
             email: [data.contact.email, [Validators.email]],
             description: [data.contact.description, [Validators.max(150)]],
-            birthday: [undefined, []],
             phone: [data.contact.phone, []],
             address: [data.contact.address, []],
           });
@@ -86,7 +84,6 @@ export class ContactDetailComponent {
         name: ['', [Validators.required]],
         email: ['', [Validators.email]],
         description: ['', [Validators.max(150)]],
-        birthday: [undefined, []],
         phone: ['', []],
         address: ['', []],
       });
