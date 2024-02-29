@@ -13,6 +13,9 @@ import { HlmInputDirective } from '../../shared/components/ui/ui-input-helm/src/
 import { HlmButtonDirective } from '../../shared/components/ui/ui-button-helm/src/lib/hlm-button.directive';
 import { HlmLabelDirective } from '../../shared/components/ui/ui-label-helm/src/lib/hlm-label.directive';
 import { HlmSpinnerComponent } from '../../shared/components/ui/ui-spinner-helm/src/lib/hlm-spinner.component';
+import { HlmAvatarComponent } from '../../shared/components/ui/ui-avatar-helm/src/lib/hlm-avatar.component';
+import { HlmAvatarImageDirective } from '../../shared/components/ui/ui-avatar-helm/src/lib/image';
+import { HlmAvatarFallbackDirective } from '../../shared/components/ui/ui-avatar-helm/src/lib/fallback';
 import { StorageService } from '../../core/services/storage.service';
 import { Router } from '@angular/router';
 
@@ -26,6 +29,9 @@ import { Router } from '@angular/router';
     HlmButtonDirective,
     HlmLabelDirective,
     HlmSpinnerComponent,
+    HlmAvatarComponent,
+    HlmAvatarImageDirective,
+    HlmAvatarFallbackDirective,
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
@@ -77,8 +83,8 @@ export class LoginComponent {
 
     this.authService.login(this.formBody.value).subscribe({
       next: (data: AuthResponse | { [key: string]: any }) => {
-        const { id, email } = data;
-        this.storageService.saveUser({ id, email });
+        const { id, email, name } = data;
+        this.storageService.saveUser({ id, email, name });
         this.showLoading = false;
         this.router.navigate(['/home']);
       },

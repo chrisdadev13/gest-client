@@ -5,6 +5,7 @@ const USER_KEY = 'auth-user';
 interface User {
   id: string;
   email: string;
+  name: string;
 }
 
 @Injectable({

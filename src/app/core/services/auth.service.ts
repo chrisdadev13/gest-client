@@ -9,6 +9,7 @@ export type AuthResponse = {
   accessToken: string;
   refreshToken: string;
   email: string;
+  name: string;
   id: number;
 };
 
@@ -22,9 +23,7 @@ export class AuthService {
     return this.httpClient.post<AuthResponse>(`${API_URL}/auth/login`, body);
   }
 
-  register(body: Register): Promise<AuthResponse | any> {
-    return firstValueFrom(
-      this.httpClient.post<AuthResponse>(`${API_URL}/auth/register`, body),
-    );
+  register(body: Register): Observable<AuthResponse | { [key: string]: any }> {
+    return this.httpClient.post<AuthResponse>(`${API_URL}/auth/register`, body);
   }
 }
