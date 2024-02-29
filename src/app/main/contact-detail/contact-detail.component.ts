@@ -63,7 +63,7 @@ export class ContactDetailComponent {
     const access = this.cookieService.get('Authentication');
     const refresh = this.cookieService.get('Refresh');
 
-    const id = this.router.url.at(-1);
+    const id = this.router.url.split('/').at(-1);
 
     if (!Number.isNaN(parseInt(id as string)) && id) {
       this.contactService
@@ -106,7 +106,7 @@ export class ContactDetailComponent {
     const access = this.cookieService.get('Authentication');
     const refresh = this.cookieService.get('Refresh');
 
-    const id = this.router.url.at(-1);
+    const id = this.router.url.split('/').at(-1);
 
     if (!Number.isNaN(parseInt(id as string)) && id) {
       this.contactService
