@@ -13,6 +13,10 @@ export const MAIN_ROUTES: Routes = [
         path: 'details',
         component: ContactDetailComponent,
       },
+      {
+        path: 'details/:id',
+        component: ContactDetailComponent,
+      },
     ],
   },
 ];

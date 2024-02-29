@@ -47,6 +47,7 @@ export class ContactDetailComponent {
     name: new FormControl(''),
     email: new FormControl(''),
     description: new FormControl(''),
+    birthday: new FormControl(''),
     phone: new FormControl(''),
     address: new FormControl(''),
   });
@@ -60,13 +61,36 @@ export class ContactDetailComponent {
   ) {}
 
   ngOnInit(): void {
-    this.formBody = this.formBuilder.group({
-      name: ['', [Validators.required]],
-      email: ['', [Validators.email]],
-      description: ['', [Validators.max(150)]],
-      phone: ['', []],
-      address: ['', []],
-    });
+    const access = this.cookieService.get('Authentication');
+    const refresh = this.cookieService.get('Refresh');
+
+    const id = this.router.url.at(-1);
+
+    if (!Number.isNaN(parseInt(id as string)) && id) {
+      this.contactService
+        .getOne(parseInt(id), access, refresh)
+        .subscribe((data) => {
+          console.log(data.contact.name);
+
+          this.formBody = this.formBuilder.group({
+            name: [data.contact.name, [Validators.required]],
+            email: [data.contact.email, [Validators.email]],
+            description: [data.contact.description, [Validators.max(150)]],
+            birthday: [undefined, []],
+            phone: [data.contact.phone, []],
+            address: [data.contact.address, []],
+          });
+        });
+    } else {
+      this.formBody = this.formBuilder.group({
+        name: ['', [Validators.required]],
+        email: ['', [Validators.email]],
+        description: ['', [Validators.max(150)]],
+        birthday: [undefined, []],
+        phone: ['', []],
+        address: ['', []],
+      });
+    }
   }
 
   get f(): { [key: string]: AbstractControl } {
@@ -85,16 +109,39 @@ export class ContactDetailComponent {
     const access = this.cookieService.get('Authentication');
     const refresh = this.cookieService.get('Refresh');
 
-    this.contactService.create(this.formBody.value, access, refresh).subscribe({
-      next: (_data: CreateResponse | { [key: string]: any }) => {
-        this.showLoading = false;
-        this.router.navigate(['/main']);
-      },
-      error: (errorData) => {
-        this.errorMessage = errorData.error.message;
-        this.showLoading = false;
-      },
-    });
+    const id = this.router.url.at(-1);
+
+    if (!Number.isNaN(parseInt(id as string)) && id) {
+      this.contactService
+        .updateOne(parseInt(id), this.formBody.value, access, refresh)
+        .subscribe({
+          next: (_data: CreateResponse | { [key: string]: any }) => {
+            this.showLoading = false;
+            this.router.navigate(['/main']).then(() => {
+              window.location.reload();
+            });
+          },
+          error: (errorData) => {
+            this.errorMessage = errorData.error.message;
+            this.showLoading = false;
+          },
+        });
+    } else {
+      this.contactService
+        .create(this.formBody.value, access, refresh)
+        .subscribe({
+          next: (_data: CreateResponse | { [key: string]: any }) => {
+            this.showLoading = false;
+            this.router.navigate(['/main']).then(() => {
+              window.location.reload();
+            });
+          },
+          error: (errorData) => {
+            this.errorMessage = errorData.error.message;
+            this.showLoading = false;
+          },
+        });
+    }
   }
 
   onReset(): void {

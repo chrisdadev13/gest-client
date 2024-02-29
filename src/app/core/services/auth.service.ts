@@ -24,10 +24,6 @@ export class AuthService {
   }
 
   register(body: Register): Observable<AuthResponse | { [key: string]: any }> {
-    return this.httpClient.post<AuthResponse>(
-      `${API_URL}/auth/register`,
-      body,
-      { observe: 'response', withCredentials: true },
-    );
+    return this.httpClient.post<AuthResponse>(`${API_URL}/auth/register`, body);
   }
 }

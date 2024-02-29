@@ -86,7 +86,7 @@ export class RegisterComponent {
         const { id, email, name } = data;
         this.storageService.saveUser({ id, email, name });
         this.showLoading = false;
-        this.router.navigate(['/home']);
+        this.router.navigate(['/main']);
       },
       error: (errorData) => {
         if (errorData.error.message === 'UserAlreadyExists') {

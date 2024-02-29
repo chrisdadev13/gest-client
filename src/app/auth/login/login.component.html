@@ -71,18 +71,38 @@
                   {{ this.errorMessage }}
                 </p>
               }
-              <button [disabled]="this.showLoading" hlmBtn type="submit">
-                @if (this.showLoading) {
-                  <hlm-spinner
-                    name="lucideLoader2"
-                    size="sm"
-                    class="mr-2 animate-spin"
-                  />
-                  Please Wait!
-                } @else {
-                  Login
-                }
-              </button>
+              <div class="flex">
+                <button [disabled]="this.showLoading" hlmBtn type="submit">
+                  @if (this.showLoading) {
+                    <hlm-spinner
+                      name="lucideLoader2"
+                      size="sm"
+                      class="mr-2 animate-spin"
+                    />
+                    Please Wait!
+                  } @else {
+                    Login
+                  }
+                </button>
+                <span class="mx-3"></span>
+                <button
+                  [disabled]="this.showLoading"
+                  hlmBtn
+                  (click)="this.demoAccount()"
+                  variant="secondary"
+                >
+                  @if (this.showLoading) {
+                    <hlm-spinner
+                      name="lucideLoader2"
+                      size="sm"
+                      class="mr-2 animate-spin"
+                    />
+                    Please Wait!
+                  } @else {
+                    Login as Demo
+                  }
+                </button>
+              </div>
             </div>
           </form>
         </div>

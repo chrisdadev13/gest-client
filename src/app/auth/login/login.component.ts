@@ -100,6 +100,33 @@ export class LoginComponent {
     });
   }
 
+  async demoAccount(): Promise<void> {
+    this.submitted = true;
+
+    this.showLoading = true;
+
+    this.authService
+      .login({
+        email: 'demo@gmail.com',
+        password: '12345678',
+      })
+      .subscribe({
+        next: (data: AuthResponse | { [key: string]: any }) => {
+          const { id, email, name, refreshToken, accessToken } = data;
+          this.storageService.saveUser({ id, email, name });
+          this.showLoading = false;
+          this.router.navigate(['/main']);
+
+          this.cookieService.set('Authentication', accessToken);
+          this.cookieService.set('Refresh', refreshToken);
+        },
+        error: (errorData) => {
+          this.errorMessage = errorData.error.message;
+          this.showLoading = false;
+        },
+      });
+  }
+
   onReset(): void {
     this.submitted = false;
     this.formBody.reset();

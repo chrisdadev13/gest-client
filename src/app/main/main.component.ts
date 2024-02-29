@@ -12,9 +12,11 @@ import { CommonModule } from '@angular/common';
 })
 export class MainComponent {
   currentRoute: string = '';
+  table: boolean = true;
   constructor(private router: Router) {}
 
   ngOnInit() {
     this.currentRoute = this.router.url;
+    if (this.currentRoute === '/main') this.table = true;
   }
 }

@@ -16,6 +16,11 @@ export type CreateResponse = {
   userId: number;
 };
 
+export type ListParams = {
+  skip: number;
+  take: number;
+};
+
 @Injectable({
   providedIn: 'root',
 })
@@ -28,6 +33,68 @@ export class ContactService {
     refresh: string,
   ): Observable<CreateResponse | { [key: string]: any }> {
     return this.httpClient.post<CreateResponse>(`${API_URL}/contacts`, body, {
+      headers: {
+        Authentication: `Authentication=${access}`,
+        Refresh: `Refresh=${refresh}`,
+      },
+    });
+  }
+
+  list(
+    params: ListParams,
+    access: string,
+    refresh: string,
+  ): Observable<CreateResponse[] | { [key: string]: any }> {
+    return this.httpClient.get<CreateResponse>(
+      `${API_URL}/contacts?skip=${params.skip}&take=${params.take}`,
+      {
+        headers: {
+          Authentication: `Authentication=${access}`,
+          Refresh: `Refresh=${refresh}`,
+        },
+      },
+    );
+  }
+  updateOne(
+    id: number,
+    body: CreateContact,
+
+    access: string,
+    refresh: string,
+  ): Observable<CreateContact | { [key: string]: any }> {
+    return this.httpClient.put<CreateContact>(
+      `${API_URL}/contacts/${id}`,
+      body,
+      {
+        headers: {
+          Authentication: `Authentication=${access}`,
+          Refresh: `Refresh=${refresh}`,
+        },
+      },
+    );
+  }
+  getOne(
+    id: number,
+    access: string,
+    refresh: string,
+  ): Observable<{ contact: CreateContact } | { [key: string]: any }> {
+    return this.httpClient.get<{ contact: CreateContact }>(
+      `${API_URL}/contacts/${id}`,
+      {
+        headers: {
+          Authentication: `Authentication=${access}`,
+          Refresh: `Refresh=${refresh}`,
+        },
+      },
+    );
+  }
+
+  deleteContact(
+    id: number,
+    access: string,
+    refresh: string,
+  ): Observable<CreateContact | { [key: string]: any }> {
+    return this.httpClient.delete<CreateContact>(`${API_URL}/contacts/${id}`, {
       headers: {
         Authentication: `Authentication=${access}`,
         Refresh: `Refresh=${refresh}`,
